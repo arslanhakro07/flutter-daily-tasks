@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:tyamo/Views/find_friends/find_friendscreen.dart';
 
 import '../../widgets/textfield.dart';
 class profile_screen extends StatefulWidget {
@@ -68,22 +72,33 @@ class _profile_screenState extends State<profile_screen> {
               SizedBox(height: 50),
               Container(
                 constraints: BoxConstraints(minHeight: 40,),
-                child: RoundedLoadingButton(
-                    borderRadius: 10,
-                    width: 300,
-                    height: 40,
+                child: Hero(tag:"auth",
+                  child: RoundedLoadingButton(
+                      borderRadius: 10,
+                      width: 2000,
+                      height: 40,
 
-                    color: Colors.green[600],
-                    controller: _profilebuttonController,
-                    onPressed: () {
-                      setState(() {
-                       // Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>signUp_Screen()));
-                      });
-                    },
-                    child: Text(
-                      "Next",
-                      style: GoogleFonts.poppins(color: Colors.white),
-                    )),
+                      color: Colors.green[600],
+                      controller: _profilebuttonController,
+                      onPressed: () {
+
+                        Timer(Duration(seconds: 3), () async{
+                        _profilebuttonController.success();
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              child: find_friend(),
+                            ),
+                          );
+                        });
+
+                      },
+                      child: Text(
+                        "Next",
+                        style: GoogleFonts.poppins(color: Colors.white),
+                      )),
+                ),
               ),
 
             ],

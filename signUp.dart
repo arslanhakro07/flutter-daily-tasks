@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:tyamo/Views/auth/login.dart';
 
 import '../../widgets/auth_heading.dart';
 import '../../widgets/textfield.dart';
+import '../profile/profile_screen.dart';
 class signUp_Screen extends StatefulWidget {
   const signUp_Screen({super.key});
 
@@ -56,18 +61,33 @@ class _signUp_ScreenState extends State<signUp_Screen> {
               ),
 
 
-              RoundedLoadingButton(
+              Hero(tag: "auth",
+                child: RoundedLoadingButton(
 
-                  borderRadius: 10,
-                  width: double.infinity,
-                  height: 40,
-                  color: Colors.green[600],
-                  controller:_signUpbuttonController,
-                  onPressed: () {},
-                  child: Text(
-                    "SignUp",
-                    style: GoogleFonts.poppins(color: Colors.white),
-                  )),
+                    borderRadius: 10,
+                    width: 2000,
+                    height: 40,
+                    color: Colors.green[600],
+                    controller:_signUpbuttonController,
+                    onPressed:  () {
+
+                        Timer(Duration(seconds: 3), () async{
+                        _signUpbuttonController.success();
+                        Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                        type: PageTransitionType.rightToLeftWithFade,
+                        child: profile_screen(),
+                        ),
+                        );
+                        });
+
+                        },
+                    child: Text(
+                      "SignUp",
+                      style: GoogleFonts.poppins(color: Colors.white),
+                    )),
+              ),
               Container(
                 margin: EdgeInsets.only(top: 10, bottom: 20),
                 alignment: Alignment.centerLeft,
@@ -77,10 +97,22 @@ class _signUp_ScreenState extends State<signUp_Screen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Already resgistered?"),
-                  Text(
-                    "Sign In",
-                    style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold, color: Colors.blue),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeftWithFade,
+                          child: login_screen(),
+                        ),
+                      );
+
+                    },
+                    child: Text(
+                      "Sign In",
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold, color: Colors.blue),
+                    ),
                   )
                 ],
               )
